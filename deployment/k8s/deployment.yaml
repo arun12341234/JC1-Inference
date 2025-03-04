@@ -1,0 +1,42 @@
+# 🚀 JC1 Inference API - Kubernetes Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jc1-inference-api
+  labels:
+    app: jc1-inference
+spec:
+  replicas: 3  # 🔹 Scale up/down API instances
+  selector:
+    matchLabels:
+      app: jc1-inference
+  template:
+    metadata:
+      labels:
+        app: jc1-inference
+    spec:
+      containers:
+        - name: jc1-api
+          image: jc1-inference:latest  # 🔹 Replace with actual image from Docker registry
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              nvidia.com/gpu: 1  # 🔹 Allocate 1 GPU per pod
+            requests:
+              memory: "16Gi"
+              cpu: "4"
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "all"
+          volumeMounts:
+            - name: model-storage
+              mountPath: /models  # 🔹 Mount model storage
+
+      nodeSelector:
+        accelerator: "nvidia"  # 🔹 Ensure scheduling on GPU nodes
+
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: model-pvc  # 🔹 Reference PVC for persistent storage

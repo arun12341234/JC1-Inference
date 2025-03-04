@@ -1,0 +1,48 @@
+# 🚀 JC1 Inference API - Logging Configuration
+
+version: 1  # Python Logging Format Version
+disable_existing_loggers: False
+
+formatters:
+  simple:
+    format: "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+  detailed:
+    format: "%(asctime)s - %(levelname)s - %(name)s - %(filename)s:%(lineno)d - %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: detailed
+    filename: logs/jc1-api.log
+    maxBytes: 10MB  # Max log file size before rotating
+    backupCount: 5  # Number of old log files to keep
+
+  error_file:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: detailed
+    filename: logs/jc1-errors.log
+    maxBytes: 5MB
+    backupCount: 3
+
+loggers:
+  uvicorn:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+
+  jc1_api:
+    level: DEBUG
+    handlers: [console, file, error_file]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [console, file]

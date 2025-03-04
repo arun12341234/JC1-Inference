@@ -1,0 +1,35 @@
+# 🚀 NVIDIA Triton Inference Server Configuration
+backend-config:
+  tensorflow:
+    allow-soft-placement: true
+    memory-growth: true
+  tensorrt:
+    force-implicit-batch: false  # 🔹 Allows dynamic batching for better efficiency
+  pytorch:
+    enable-torchscript: true
+
+# 🔹 Enable dynamic batching to optimize inference latency
+model-batch:
+  max-batch-size: 64  # 🔹 Maximum batch size per inference request
+
+# 🔹 GPU Configuration (Allocate H100 GPUs)
+instance-groups:
+  - name: "jc1-instance"
+    count: 1
+    kind: KIND_GPU
+    gpus: [0]  # 🔹 Assigns the first available GPU (Adjust if needed)
+    optimization:
+      execution_accelerators:
+        gpu_execution_accelerator:
+          - name: "tensorrt"
+
+# 🔹 Set model repository path (ensure PVC or mounted storage is configured)
+model-repository: /models/triton-repository
+
+# 🔹 Enable response caching for faster inference on repeated requests
+cache-config:
+  enable-response-cache: true
+  cache-directory: /models/cache
+
+# 🔹 Define logging level
+log-level: INFO

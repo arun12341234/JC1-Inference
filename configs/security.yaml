@@ -1,0 +1,64 @@
+# 🚀 JC1 Inference API - Security Configuration
+
+authentication:
+  method: "JWT"  # Authentication method: JWT, API-Key, OAuth2
+  jwt_secret_key: "your-secure-random-secret-key"
+  jwt_algorithm: "HS256"
+  access_token_expiry: 3600  # Token expiration in seconds (1 hour)
+  refresh_token_expiry: 86400  # Refresh token expiration (24 hours)
+
+encryption:
+  enable_data_encryption: true
+  encryption_algorithm: "AES-256"  # Encryption method for sensitive data
+  encryption_key: "your-secure-random-encryption-key"
+
+rate_limiting:
+  enable_rate_limit: true
+  requests_per_minute: 100  # Maximum API requests per minute per user
+  ban_threshold: 1000  # Block user after this many failed attempts
+
+role_based_access:
+  enable_rbac: true
+  roles:
+    - role: "admin"
+      permissions: ["read", "write", "delete"]
+    - role: "user"
+      permissions: ["read"]
+    - role: "moderator"
+      permissions: ["read", "write"]
+
+allowed_origins:
+  - "http://localhost:3000"  # Frontend connection (React, Vue, Angular)
+  - "https://yourdomain.com"  # Allow access from production domain
+
+audit_logging:
+  enable_audit_logs: true
+  audit_log_path: "logs/security-audit.log"
+
+ip_whitelisting:
+  enable_ip_whitelist: false
+  allowed_ips: []  # Add allowed IPs if needed
+
+firewall:
+  enable_firewall: true
+  blocked_ips:
+    - "192.168.1.100"  # Example blocked IP
+    - "10.0.0.50"
+  blocked_countries:
+    - "RU"  # Example: Block access from Russia
+    - "CN"  # Example: Block access from China
+
+session_security:
+  session_timeout: 1800  # Session expires in 30 minutes
+  max_concurrent_sessions: 3  # Limit active logins per user
+
+csrf_protection:
+  enable_csrf: true
+  csrf_secret_key: "your-random-csrf-secret-key"
+
+api_keys:
+  enable_api_keys: true
+  allowed_keys:
+    - "api-key-123456"
+    - "api-key-abcdef"
+

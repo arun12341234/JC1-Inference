@@ -1,0 +1,13 @@
+# 🚀 JC1 Inference API - Kubernetes Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: jc1-inference-service
+spec:
+  type: LoadBalancer  # 🔹 Use "ClusterIP" for internal, "LoadBalancer" for external
+  selector:
+    app: jc1-inference
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

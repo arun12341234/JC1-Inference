@@ -1,0 +1,50 @@
+# 🚀 JC1 Inference API - Configuration Settings
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4  # Adjust based on hardware availability
+
+models:
+  llm_model: "/models/jc1-llm"   # Path to the Large Language Model (LLM)
+  vision_model: "/models/jc1-vision"  # Path to Vision model (Multimodal processing)
+  speech_model: "/models/jc1-speech"  # Path to Speech-to-Text ASR model
+  tokenizer: "/models/tokenizer"  # Path to Tokenizer model files
+
+inference:
+  batch_size: 8  # Number of requests to process simultaneously
+  max_tokens: 4096  # Maximum token length per request
+  temperature: 0.7  # Creativity level (0 = deterministic, 1 = high randomness)
+  top_p: 0.9  # Nucleus sampling for more diverse outputs
+
+security:
+  enable_auth: true  # Enable API key authentication
+  allowed_origins:  # Domains that can access the API
+    - "https://your-domain.com"
+    - "https://your-client-app.com"
+
+api_keys:
+  admin: "supersecureadminkey123"
+  user: "standarduserapikey456"
+
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_to_file: true
+  log_file_path: "logs/jc1-api.log"
+  log_format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+storage:
+  use_vector_db: true  # Enable Vector DB for memory & retrieval
+  vector_db_path: "/data/vector_db"
+
+cache:
+  enable_kv_cache: true  # Key-value cache for inference speedup
+  cache_size: 500  # Maximum cache entries
+
+performance:
+  optimize_with_deepspeed: true  # Enable DeepSpeed optimization
+  enable_flash_attention: true  # Use FlashAttention for better performance
+
+deployment:
+  containerized: true  # Set to true if deploying via Docker or Kubernetes
+  auto_scaling: true  # Enable auto-scaling in production

@@ -1,0 +1,39 @@
+# 🚀 JC1 Inference API - Docker Compose
+version: '3.8'
+
+services:
+  jc1-api:
+    container_name: jc1-inference-api
+    build: .
+    restart: always
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # Optional PostgreSQL database for metadata storage
+  db:
+    image: postgres:15
+    container_name: jc1-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: jc1_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
