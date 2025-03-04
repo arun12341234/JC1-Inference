@@ -5,7 +5,7 @@ uvicorn==0.27.0
 # Model Serving and Optimization
 torch==2.2.0
 transformers==4.38.0
-deepspeed==0.12.0
+deepspeed==0.15.1
 vllm==0.3.1
 tritonclient[all]==2.31.0
 
